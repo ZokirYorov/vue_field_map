@@ -328,7 +328,7 @@ function isBooked(time: string) {
   if (!field.value) return false
 
   return bookingStore.bookings.some(
-      b =>
+      (b: any) =>
           b.fieldId === field.value.id &&
           b.date === date.value &&
           b.time === time
