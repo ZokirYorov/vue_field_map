@@ -5,6 +5,7 @@ export interface Booking {
     date : number;
     startTime: string;
     endTime: string;
+    time: string;
     status : string;
     paymentType: string | null;
     paid: boolean

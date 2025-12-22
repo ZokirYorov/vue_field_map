@@ -15,9 +15,15 @@
               @click="openBooking(field.id)"
           />
         </div>
-        <div class="flex flex-col w-full rounded-2xl font-semibold italic font-mono bg-black/50 text-white text-6xl items-center justify-center">
-          <div>This is a map area !</div>
-        </div>
+        <div class="flex flex-col w-full h-full rounded-2xl font-semibold italic font-mono bg-black/50 text-white text-6xl text-center justify-center gap-6 p-6">
+
+          <a :href="urlAddress" target="_blank">
+            Barcha fieldlarni xaritada ko'rish
+          </a>
+          <span class="font-mono text-white">
+            This is a map area !
+          </span>
+         </div>
       </div>
     </div>
   </div>
@@ -28,13 +34,29 @@
 import { useFieldStore } from "@/stores/fieldStore"
 import FieldCard from "@/components/FieldCard.vue"
 import { useRouter } from "vue-router"
-
+import {computed, onMounted, ref} from "vue";
 
 const router = useRouter()
 
-const fieldStore = useFieldStore()
+const fieldStore = useFieldStore();
+
+const field = computed(() => fieldStore.fields);
+
+const urlAddress = ref("");
+
+const openAllFieldsOnMap = () => {
+  const points = field.value.map(f => `${f.lat},${f.lng}`).join("/");
+  const url = `https://www.google.com/maps/dir/${points}`;
+  window.open(url, "_blank");
+};
 
 
+onMounted(() => {
+  const points = field.value.map(f => `${f.lat},${f.lng}`).join("/");
+
+  urlAddress.value = `https://www.google.com/maps/dir/${points}`;
+
+})
 
 const openBooking = (id: number) => {
   router.push(`/booking/${id}`)

@@ -7,7 +7,7 @@ export const useBookingStore = defineStore("booking", {
         bookings: JSON.parse(localStorage.getItem("bookings") || "[]")
     }),
     actions: {
-        book(payload: Booking) {
+        book(payload: { fieldId: number; date: number; time: string; paymentType: string }) {
             this.bookings.push(payload)
             localStorage.setItem("book", JSON.stringify(this.book))
         }
