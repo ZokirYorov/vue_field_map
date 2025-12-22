@@ -6,10 +6,10 @@
       <p class="text-sm text-gray-500">{{ field.city }}</p>
       <p>{{field.workTime}}</p>
       <p>{{field.surface}}</p><br>
+      <p>{{field.sports}}</p>
       <p class="text-green-600 font-bold">
         {{ field.price }} so'm / soat
       </p>
-      <p>{{field.sports}}</p>
     </div>
     <img class="min-w-[200px] max-w-[300px] rounded-r-xl" :src="field.image" alt="">
   </div>
