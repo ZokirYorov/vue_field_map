@@ -1,3 +1,28 @@
+export interface IUser {
+    id: number;
+    username: string;
+    email: string;
+    deviceId: string;
+    accountType: string;
+    fullName: string;
+    phoneNumber: string;
+    role: string | null;
+    active: boolean;
+}
+
+export interface MissedPrayer {
+    id: number | null;
+    prayerType: string;
+    totalCount: number ;
+    completedCount: number;
+    remainingCount: number;
+}
+
+export interface Prayer {
+    id: number;
+    missedPrayerId: number;
+    count: number;
+}
 
 export interface Booking {
     id: number;
