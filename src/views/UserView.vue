@@ -1,70 +1,107 @@
 <template>
   <div class="flex flex-col items-center justify-center h-screen bg-white">
+    <button
+        class="mb-4 text-blue-600 cursor-pointer bg-gray-200 hover:bg-gray-300 p-2 rounded-lg"
+        @click="$router.back()"
+    >
+      ← Orqaga
+    </button>
     <div class="flex flex-col w-[400px] min-h-[600px] bg-gray-100 rounded-lg p-6">
       <form
           @submit.prevent="submitUser"
           class="flex flex-col gap-4"
       >
-        <label for="username">Name</label>
-        <input
-            id="username"
-            type="text"
-            placeholder="Username"
-            class="border border-gray-300 rounded-md w-full py-1 px-2"
-            v-model="form.username"
-        >
-        <label for="email">Email</label>
-        <input type="email"
-               id="email"
-               placeholder="Email"
-               class="border border-gray-300 rounded-md w-full py-1 px-2"
-               v-model="form.email"
-        >
-        <label for="deviceId">Device type</label>
-        <input type="text"
-               id="deviceId"
-               class="border border-gray-300 rounded-md w-full py-1 px-2"
-               placeholder="Device type"
-               v-model="form.deviceId"
-        >
-        <label for="accountType">Account type</label>
-        <input type="text"
-               id="accountType"
-               class="border border-gray-300 rounded-md w-full py-1 px-2"
-               placeholder="Account type"
-               v-model="form.accountType"
-        >
-        <label for="fullName">Full name</label>
-        <input type="text"
-               id="fullName"
-               class="border border-gray-300 rounded-md w-full py-1 px-2"
-               placeholder="Full Name"
-               v-model="form.fullName"
-        >
-        <label for="role">Role</label>
-        <input type="text"
-               id="role"
-               class="border border-gray-300 rounded-md w-full py-1 px-2"
-               placeholder="Role"
-               v-model="form.role"
-        >
-        <label for="phoneNumber">Phone number</label>
-        <input type="text"
-               id="phoneNumber"
-               class="border border-gray-300 rounded-md w-full py-1 px-2"
-               placeholder="Phone number"
-               v-model="form.phoneNumber"
-        >
-        <label for="password">Password</label>
-        <input type="password"
-               id="password"
-               placeholder="..."
-               v-model="form.password"
-        >
+        <label for="username">
+          Name
+          <input
+              id="username"
+              type="text"
+              placeholder="Username"
+              class="border border-gray-300 rounded-md w-full py-1 px-2"
+              v-model="form.username"
+          >
+        </label>
+        <label for="email">
+          Email
+          <input type="email"
+                 id="email"
+                 placeholder="Email"
+                 class="border border-gray-300 rounded-md w-full py-1 px-2"
+                 v-model="form.email"
+          >
+        </label>
+        <label for="deviceId">
+          Device type
+          <input type="text"
+                 id="deviceId"
+                 class="border border-gray-300 rounded-md w-full py-1 px-2"
+                 placeholder="Device type"
+                 v-model="form.deviceId"
+          >
+        </label>
+        <label for="accountType">
+          Account type
+          <select id="accountType"
+                  class="border border-gray-300 rounded-md w-full py-1 px-2"
+                  v-model="form.accountType"
+          >
+            <option value="" disabled>Select type</option>
+            <option
+                    v-for="type in accountTypes"
+                    :key="type"
+                    :value="type"
+            >
+              {{type}}
+            </option>
+          </select>
+        </label>
+        <label for="fullName">
+          Full name
+          <input type="text"
+                 id="fullName"
+                 class="border border-gray-300 rounded-md w-full py-1 px-2"
+                 placeholder="Full Name"
+                 v-model="form.fullName"
+          >
+        </label>
+        <label for="role">
+          Role
+          <select id="role"
+                  class="border border-gray-300 rounded-md w-full py-1 px-2"
+                  v-model="form.role"
+          >
+            <option value="" disabled>Select role</option>
+            <option
+                v-for="role in roles"
+                :key="role"
+                :value="role"
+            >
+              {{ role }}
+            </option>
+          </select>
+        </label>
+        <label for="phoneNumber">
+          Phone number
+          <input type="text"
+                 id="phoneNumber"
+                 class="border border-gray-300 rounded-md w-full py-1 px-2"
+                 placeholder="Phone number"
+                 v-model="form.phoneNumber"
+          >
+        </label>
+        <label for="password">
+          Password
+          <input type="password"
+                 id="password"
+                 class="border border-gray-300 rounded-md w-full py-1 px-2"
+                 placeholder="..."
+                 v-model="form.password"
+          >
+        </label>
         <div class="flex items-center justify-center">
           <button
               type="submit"
-              class="w-[100px] bg-blue-500 text-white px-4 py-2 rounded-md cursor-pointer"
+              class="w-[100px] bg-blue-500 text-white px-4 hover:bg-blue-600 py-2 rounded-md cursor-pointer"
           >
             Submit
           </button>
@@ -82,7 +119,6 @@ import { useRouter } from "vue-router";
 import {onMounted, ref} from "vue";
 import {authStore} from "@/stores/authStore";
 import axiosInstance from "@/axios";
-import axios from "axios";
 
 const store = authStore();
 interface User {
@@ -110,27 +146,35 @@ const form = ref<User>({
   active: true,
 })
 
+const accountTypes = ref({
+  0: 'GUEST',
+  1: 'REGISTERED',
+});
 
+const roles = ref( {
+  0: 'USER',
+  1: 'ADMIN',
+});
 
 const submitUser = async () => {
   try {
-    const formData = new FormData();
-    formData.append("username", form.value.username);
-    formData.append("email", form.value.email);
-    formData.append("deviceId", form.value.deviceId);
-    formData.append("accountType", form.value.accountType);
-    formData.append("fullName", form.value.fullName);
-    formData.append("phoneNumber", form.value.phoneNumber);
-    formData.append("role", form.value.role);
-    formData.append("password", form.value.password);
-    if(form.value.active) {
-      formData.append("active", typeof (form.value.active));
-    }
-    const { data }= await axios.post(`http://localhost:8080/api/users`,
-        formData,
+    // const formData = new FormData();
+    // formData.append("username", form.value.username);
+    // formData.append("email", form.value.email);
+    // formData.append("deviceId", form.value.deviceId);
+    // formData.append("accountType", form.value.accountType);
+    // formData.append("fullName", form.value.fullName);
+    // formData.append("phoneNumber", form.value.phoneNumber);
+    // formData.append("role", form.value.role);
+    // formData.append("password", form.value.password);
+    // if(form.value.active) {
+    //   formData.append("active", typeof (form.value.active));
+    // }
+    const { data }= await axiosInstance.post(`/api/users`,
+        form.value,
         {
           headers: {
-            'Content-Type': 'multipart/form-data',
+            'Content-Type': 'application/json',
           }
         }
     );

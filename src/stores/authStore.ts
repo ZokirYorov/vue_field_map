@@ -61,7 +61,7 @@ export const authStore = defineStore("authStore", () => {
 
     const getMissed = async () => {
         try {
-            const userId = 1
+            const userId = 1;
             const response = await axiosInstance.get(`/api/qaza/get-all`,
                 {
                     params: {

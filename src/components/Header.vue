@@ -13,12 +13,6 @@
     >
       Missed
     </router-link>
-    <router-link
-        to="/prayer"
-        class="px-4 py-2 bg-gray-600 cursor-pointer rounded"
-    >
-      Prayer
-    </router-link>
     <button
         class="px-4 py-2 bg-gray-600 cursor-pointer rounded"
         @click="visibleSearch"

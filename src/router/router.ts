@@ -1,5 +1,4 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router';
-import AllUsersView from "@/views/AllUsersView.vue";
 
 const routes: Array<RouteRecordRaw> = [
     {
@@ -48,14 +47,6 @@ const routes: Array<RouteRecordRaw> = [
                 path: 'missed',
                 name: 'MissedPrayer',
                 component: () => import('@/views/MissedPrayer.vue'),
-                meta: {
-                    requiresAuth: true,
-                }
-            },
-            {
-                path: 'prayer',
-                name: 'PrayerController',
-                component: () => import('@/views/PrayerController.vue'),
                 meta: {
                     requiresAuth: true,
                 }

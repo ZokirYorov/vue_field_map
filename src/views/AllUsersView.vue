@@ -45,7 +45,7 @@ const user = ref<any>(null)
 
 const allUsers = async (): Promise<void> => {
   try {
-    const userId = 3
+    const userId = 3;
     const response = await axiosInstance.get(`/api/users/${userId}`, {
       headers: {
         "Content-Type": "multipart/form-data"

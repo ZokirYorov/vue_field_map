@@ -2,7 +2,7 @@
   <div class="flex flex-col px-6 w-full h-full overflow-x-auto">
     <div class="w-full flex items-center justify-around py-6">
       <span class="text-xl font-semibold">Missed page</span>
-      <div class="flex items-center gap-2">
+      <div class="flex text-lg font-mono items-center gap-2">
         <input type="date"
                class="flex py-2 px-4 border border-gray-400 rounded-md"
                v-model="formFilter.fromDate"
@@ -234,6 +234,18 @@ const submitMissed = async () => {
 const visiblePrayerForm = ref(false);
 
 // ********Prayer type****
+
+
+const visibleForm = () => {
+  visiblePrayerForm.value = true;
+}
+
+
+const formPrayer = ref({
+  missedPrayerId: '',
+  count: 0,
+});
+
 const prayerType = [
   1,
   2,
@@ -251,16 +263,6 @@ const prayerLabel: Record<string, string> = {
   5: "Xufton",
   6: "Vitr",
 };
-
-const visibleForm = () => {
-  visiblePrayerForm.value = true;
-}
-
-
-const formPrayer = ref({
-  missedPrayerId: 0,
-  count: 0,
-});
 
 const submitPrayer = async () => {
   try {
@@ -295,7 +297,7 @@ const getInit = async () => {
       return;
     }
 
-    const userId = 1
+    const userId = 1;
     const payload = {
       fromDate: formFilter.value.fromDate,
       toDate: formFilter.value.toDate,
@@ -318,7 +320,7 @@ const getInit = async () => {
 
 const closeForm = () => {
   visiblePrayerForm.value = false;
-  formPrayer.value.missedPrayerId = 0;
+  formPrayer.value.missedPrayerId = '';
   formPrayer.value.count = 0;
 }
 
