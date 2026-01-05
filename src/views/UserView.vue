@@ -1,5 +1,5 @@
 <template>
-  <div class="flex flex-col items-center justify-center h-screen bg-white">
+  <div class="flex flex-col  h-screen bg-white">
     <button
         class="mb-4 text-blue-600 cursor-pointer bg-gray-200 hover:bg-gray-300 p-2 rounded-lg"
         @click="$router.back()"
@@ -30,15 +30,6 @@
                  v-model="form.email"
           >
         </label>
-        <label for="deviceId">
-          Device type
-          <input type="text"
-                 id="deviceId"
-                 class="border border-gray-300 rounded-md w-full py-1 px-2"
-                 placeholder="Device type"
-                 v-model="form.deviceId"
-          >
-        </label>
         <label for="accountType">
           Account type
           <select id="accountType"
@@ -55,15 +46,6 @@
             </option>
           </select>
         </label>
-        <label for="fullName">
-          Full name
-          <input type="text"
-                 id="fullName"
-                 class="border border-gray-300 rounded-md w-full py-1 px-2"
-                 placeholder="Full Name"
-                 v-model="form.fullName"
-          >
-        </label>
         <label for="role">
           Role
           <select id="role"
@@ -79,15 +61,6 @@
               {{ role }}
             </option>
           </select>
-        </label>
-        <label for="phoneNumber">
-          Phone number
-          <input type="text"
-                 id="phoneNumber"
-                 class="border border-gray-300 rounded-md w-full py-1 px-2"
-                 placeholder="Phone number"
-                 v-model="form.phoneNumber"
-          >
         </label>
         <label for="password">
           Password
@@ -124,10 +97,7 @@ const store = authStore();
 interface User {
   username: string;
   email: string;
-  deviceId: string;
   accountType: string;
-  fullName: string;
-  phoneNumber: string;
   role: string;
   password: string;
   active: boolean;
@@ -137,10 +107,7 @@ const router = useRouter();
 const form = ref<User>({
   username: "",
   email: "",
-  deviceId: "",
   accountType: "",
-  fullName: "",
-  phoneNumber: "",
   role: '',
   password: '',
   active: true,
@@ -179,7 +146,7 @@ const submitUser = async () => {
         }
     );
 
-    await store.getUser(data.id);
+    await store.getUser();
     const token = data.token
 
     store.setUser(data.user)

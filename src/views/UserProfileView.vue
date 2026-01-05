@@ -1,5 +1,5 @@
 <template>
-  <div class=" flex flex-col gap-4 container m-auto w-full h-full bg-gray-100 p-6">
+  <div class=" flex flex-col gap-4 container mt-10 m-auto w-full h-full bg-gray-100 p-6">
     <div>All users</div>
     <table class="rounded-xl p-6 w-full overflow-x-auto bg-white">
       <thead class="border-b border-gray-800 p-4">
@@ -45,10 +45,9 @@ const user = ref<any>(null)
 
 const allUsers = async (): Promise<void> => {
   try {
-    const userId = 3;
-    const response = await axiosInstance.get(`/api/users/${userId}`, {
+    const response = await axiosInstance.get(`/api/users/me`, {
       headers: {
-        "Content-Type": "multipart/form-data"
+        "Content-Type": "application/json"
       }
     });
     user.value = response.data;

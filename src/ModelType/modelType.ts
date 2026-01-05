@@ -4,10 +4,9 @@ export interface IUser {
     email: string;
     deviceId: string;
     accountType: string;
-    fullName: string;
-    phoneNumber: string;
     role: string | null;
     active: boolean;
+    password: number | null;
 }
 
 export interface MissedPrayer {

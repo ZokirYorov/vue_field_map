@@ -44,12 +44,12 @@ export const authStore = defineStore("authStore", () => {
         localStorage.setItem("token", token);
     }
 
-    const getUser = async (id: number) => {
+    const getUser = async () => {
         if (!state.value.token) return;
 
         try {
 
-            const { data } = await axiosInstance.get(`/api/users/${id}`);
+            const { data } = await axiosInstance.get(`/api/users/me`);
 
             setUser(data);
             setToken(data.token);
@@ -61,14 +61,7 @@ export const authStore = defineStore("authStore", () => {
 
     const getMissed = async () => {
         try {
-            const userId = 1;
-            const response = await axiosInstance.get(`/api/qaza/get-all`,
-                {
-                    params: {
-                        userId,
-                    }
-                }
-                );
+            const response = await axiosInstance.get(`/api/qaza/get`);
             state.value.missed = response.data
         }
         catch (error) {

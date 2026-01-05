@@ -9,7 +9,7 @@
       <p>{{field.sports}}</p>
       <p class="text-green-600 font-bold">
         {{ field.price }} so'm / soat
-      </p>
+      </p>ddd
     </div>
     <img class="min-w-[200px] max-w-[300px] rounded-r-xl" :src="field.image" alt="">
   </div>

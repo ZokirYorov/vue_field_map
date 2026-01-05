@@ -2,13 +2,13 @@
   <div class="flex flex-col px-6 w-full h-full overflow-x-auto">
     <div class="w-full flex items-center justify-around py-6">
       <span class="text-xl font-semibold">Missed page</span>
-      <div class="flex text-lg font-mono items-center gap-2">
+      <div class="flex text-md items-center gap-2">
         <input type="date"
-               class="flex py-2 px-4 border border-gray-400 rounded-md"
+               class="flex py-1 px-4 border border-gray-400 rounded-md"
                v-model="formFilter.fromDate"
         >
         <input type="date"
-               class="flex py-2 px-4 border border-gray-400 rounded-md"
+               class="flex py-1 px-4 border border-gray-400 rounded-md"
                v-model="formFilter.toDate"
         >
       </div>
@@ -23,7 +23,7 @@
         <button class="w-[110px] p-1 rounded-lg bg-blue-600 text-white cursor-pointer"
                 @click="visibleForm"
         >
-          Edit Missed
+          Complete
         </button>
       </div>
     </div>
@@ -57,7 +57,6 @@
         </label>
         <label for="countId"
                class="flex flex-col"
-
         >
           Count Controller
           <input type="number"
@@ -65,6 +64,27 @@
                  placeholder="Count Controller"
                  class="rounded-md p-2 border border-gray-300 "
                  v-model="formPrayer.count"
+          >
+        </label>
+        <label for="noteId"
+               class="flex flex-col"
+        >
+          Note
+          <input type="text"
+                 id="noteId"
+                 placeholder="Inter note"
+                 class="rounded-md p-2 border border-gray-300 "
+                 v-model="formPrayer.note"
+          >
+        </label>
+        <label for="dataId"
+               class="flex flex-col"
+        >
+          Date
+          <input type="date"
+                 id="dataId"
+                 class="rounded-md p-2 border border-gray-300 "
+                 v-model="formPrayer.createdAt"
           >
         </label>
         <div class="flex w-full items-center justify-center gap-4">
@@ -172,11 +192,15 @@ const visibleMissedForm = () => {
 interface MissedPrayerType {
   prayerType: string;
   totalCount: number;
+  completedCount: number;
+  remainingCount: number;
 }
 
 const form = ref<MissedPrayerType>( {
   prayerType: "",
   totalCount: 0,
+  completedCount: 0,
+  remainingCount: 0,
 });
 
 const formFilter = ref({
@@ -205,8 +229,6 @@ const prayerLabels: Record<string, string> = {
 
 const submitMissed = async () => {
   try {
-    const userId = 1; // yoki 3
-    const prayerType = form.value.prayerType;
 
     if (!form.value.prayerType) {
       alert("Prayer type tanlang");
@@ -215,14 +237,7 @@ const submitMissed = async () => {
 
     const response = await axiosInstance.post(
         "/api/qaza/add",
-        null,
-        {
-          params: {
-            userId,
-            prayerType, // BOMDOD
-            count: form.value.totalCount,      // 1
-          },
-        }
+        form.value,
     );
     console.log("Added qaza", response.data);
     await store.getMissed();
@@ -244,6 +259,8 @@ const visibleForm = () => {
 const formPrayer = ref({
   missedPrayerId: '',
   count: 0,
+  note: '',
+  createdAt: new Date(),
 });
 
 const prayerType = [
@@ -266,7 +283,7 @@ const prayerLabel: Record<string, string> = {
 
 const submitPrayer = async () => {
   try {
-    const userId = 1
+    const userId = store.state.user?.id
     const payload = {
       missedPrayerId: formPrayer.value.missedPrayerId,
       count: formPrayer.value.count,
@@ -322,11 +339,15 @@ const closeForm = () => {
   visiblePrayerForm.value = false;
   formPrayer.value.missedPrayerId = '';
   formPrayer.value.count = 0;
+  formPrayer.value.note = '';
+  formPrayer.value.createdAt = new Date();
 }
 
 const resetForm = () => {
   form.value.prayerType = "";
   form.value.totalCount = 0;
+  form.value.remainingCount = 0;
+  form.value.remainingCount = 0;
   visibleMissed.value = false;
 }
 

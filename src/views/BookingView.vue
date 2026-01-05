@@ -1,13 +1,14 @@
 <template>
-  <div class="min-h-screen p-6"
+  <div class="min-h-screen w-full flex flex-col p-6"
        :key="$route.fullPath"
   >
     <button
-        class="mb-4 text-blue-600 cursor-pointer bg-gray-200 hover:bg-gray-300 p-2 rounded-lg"
+        class="mb-4 text-blue-600 w-[100px] cursor-pointer bg-gray-200 hover:bg-gray-300 p-2 rounded-lg"
         @click="$router.back()"
     >
       ← Orqaga
     </button>
+    <router-view/>
     <div
         v-if="showModal"
         class="fixed top-0 right-0 flex inset-0 bg-black/50 z-50 items-center justify-center"

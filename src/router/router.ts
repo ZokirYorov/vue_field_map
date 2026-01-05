@@ -12,53 +12,59 @@ const routes: Array<RouteRecordRaw> = [
         children: [
             {
                 path: 'home',
-                name: 'HomeView',
+                name: 'Home',
                 component: () => import('@/views/HomeView.vue'),
                 meta: {
-                    requiresAuth: true,
-                }
-            },
-            {
-                path: 'users',
-                name: 'AllUsersView',
-                component: () => import('@/views/AllUsersView.vue'),
-                meta: {
-                    requiresAuth: true,
-                }
-            },
-            {
-                path: 'booking/:id',
-                name: 'BookingView',
-                component: () => import('@/views/BookingView.vue'),
-                props: true,
-                meta: {
-                    requiresAuth: true,
-                }
-            },
-            {
-                path: 'goal',
-                name: 'GoalView',
-                component: () => import('@/views/GoalView.vue'),
-                meta: {
+                    icon: 'fa-solid fa-house',
                     requiresAuth: true,
                 }
             },
             {
                 path: 'missed',
-                name: 'MissedPrayer',
+                name: 'Missed',
                 component: () => import('@/views/MissedPrayer.vue'),
                 meta: {
+                    icon: 'fa-solid fa-diagram-project',
+                    requiresAuth: true,
+                }
+            },
+            {
+                path: 'booking/:id',
+                name: 'Booking',
+                component: () => import('@/views/BookingView.vue'),
+                props: true,
+                meta: {
+                    icon: 'fa-solid fa-house',
+                    requiresAuth: true,
+                }
+            },
+            {
+                path: 'goal',
+                name: 'Goal',
+                component: () => import('@/views/GoalView.vue'),
+                meta: {
+                    icon: 'fa-solid fa-flag-checkered',
                     requiresAuth: true,
                 }
             },
             {
                 path: 'reminder',
-                name: 'ReminderView',
+                name: 'Reminder',
                 component: () => import('@/views/ReminderView.vue'),
                 meta: {
+                    icon: 'fa-regular fa-bell',
                     requiresAuth: true,
                 }
-            }
+            },
+            {
+                path: 'profile',
+                name: 'Profile',
+                component: () => import('@/views/UserProfileView.vue'),
+                meta: {
+                    icon: 'fa-regular fa-user',
+                    requiresAuth: true,
+                }
+            },
         ]
     },
     {
