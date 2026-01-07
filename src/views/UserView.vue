@@ -1,5 +1,5 @@
 <template>
-  <div class="flex flex-col  h-screen bg-white">
+  <div class="flex flex-col items-center p-6 h-screen bg-white">
     <button
         class="mb-4 text-blue-600 cursor-pointer bg-gray-200 hover:bg-gray-300 p-2 rounded-lg"
         @click="$router.back()"
@@ -50,7 +50,7 @@
           Role
           <select id="role"
                   class="border border-gray-300 rounded-md w-full py-1 px-2"
-                  v-model="form.role"
+                  v-model="form.roles"
           >
             <option value="" disabled>Select role</option>
             <option
@@ -98,7 +98,7 @@ interface User {
   username: string;
   email: string;
   accountType: string;
-  role: string;
+  roles: string[];
   password: string;
   active: boolean;
 }
@@ -108,7 +108,7 @@ const form = ref<User>({
   username: "",
   email: "",
   accountType: "",
-  role: '',
+  roles: [],
   password: '',
   active: true,
 })
@@ -125,18 +125,7 @@ const roles = ref( {
 
 const submitUser = async () => {
   try {
-    // const formData = new FormData();
-    // formData.append("username", form.value.username);
-    // formData.append("email", form.value.email);
-    // formData.append("deviceId", form.value.deviceId);
-    // formData.append("accountType", form.value.accountType);
-    // formData.append("fullName", form.value.fullName);
-    // formData.append("phoneNumber", form.value.phoneNumber);
-    // formData.append("role", form.value.role);
-    // formData.append("password", form.value.password);
-    // if(form.value.active) {
-    //   formData.append("active", typeof (form.value.active));
-    // }
+
     const { data }= await axiosInstance.post(`/api/users`,
         form.value,
         {
@@ -163,7 +152,7 @@ onMounted(async () => {
   const userId = store.state.user?.id
 
   if (userId) {
-    await store.getUser(userId);
+    await store.getUser();
   }
 
 })

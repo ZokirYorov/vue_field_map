@@ -34,10 +34,10 @@
           class="w-6 h-6 border cursor-pointer border-field-stroke-secondary flex items-center justify-center absolute top-2 right-2 rounded-full shrink-0 flex-center transition-300 group active:scale-95 z-50"
           @click="clearAllItems"
       >
-        <Icon
-            class="text-black group-hover:text-icon-brand-secondary"
-            icon-name="close"
-        />
+<!--        <Icon-->
+<!--            class="text-black group-hover:text-icon-brand-secondary"-->
+<!--            icon-name="close"-->
+<!--        />-->
       </button>
       <div
           class="p-2 pr-8 border border-gray-300 rounded-lg bg-white cursor-pointer min-h-[42px] flex flex-wrap gap-1"
@@ -92,7 +92,7 @@
 <script setup lang="ts">
 import {ref, computed, watch, nextTick, onMounted, onBeforeUnmount} from 'vue'
 // import {useI18n} from "vue-i18n";
-import Icon from "@/components/Icon.vue";
+// import Icon from "@/components/Icon.vue";
 
 interface IProps {
   id?: string

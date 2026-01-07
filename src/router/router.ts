@@ -1,4 +1,5 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router';
+import { authStore } from "@/stores/authStore";
 
 const routes: Array<RouteRecordRaw> = [
     {
@@ -7,7 +8,7 @@ const routes: Array<RouteRecordRaw> = [
         redirect: '/home',
         component: () => import('@/Layouts/Layout.vue'),
         meta: {
-            requiresAuth: true,
+            requiresAuth: false,
         },
         children: [
             {
@@ -16,7 +17,7 @@ const routes: Array<RouteRecordRaw> = [
                 component: () => import('@/views/HomeView.vue'),
                 meta: {
                     icon: 'fa-solid fa-house',
-                    requiresAuth: true,
+                    requiresAuth: false,
                 }
             },
             {
@@ -25,7 +26,7 @@ const routes: Array<RouteRecordRaw> = [
                 component: () => import('@/views/MissedPrayer.vue'),
                 meta: {
                     icon: 'fa-solid fa-diagram-project',
-                    requiresAuth: true,
+                    requiresAuth: false,
                 }
             },
             {
@@ -35,7 +36,7 @@ const routes: Array<RouteRecordRaw> = [
                 props: true,
                 meta: {
                     icon: 'fa-solid fa-house',
-                    requiresAuth: true,
+                    requiresAuth: false,
                 }
             },
             {
@@ -44,7 +45,7 @@ const routes: Array<RouteRecordRaw> = [
                 component: () => import('@/views/GoalView.vue'),
                 meta: {
                     icon: 'fa-solid fa-flag-checkered',
-                    requiresAuth: true,
+                    requiresAuth: false,
                 }
             },
             {
@@ -53,7 +54,7 @@ const routes: Array<RouteRecordRaw> = [
                 component: () => import('@/views/ReminderView.vue'),
                 meta: {
                     icon: 'fa-regular fa-bell',
-                    requiresAuth: true,
+                    requiresAuth: false,
                 }
             },
             {
@@ -62,16 +63,36 @@ const routes: Array<RouteRecordRaw> = [
                 component: () => import('@/views/UserProfileView.vue'),
                 meta: {
                     icon: 'fa-regular fa-user',
-                    requiresAuth: true,
+                    requiresAuth: false,
                 }
             },
         ]
     },
     {
-        path: '/user',
-        name: 'UserView',
-        component: () => import('@/views/UserView.vue'),
-    }
+        path: '/users',
+        name: 'Users',
+        component: () => import('@/views/UsersView.vue'),
+        props: true ,
+        meta: {
+            requiresAuth: false,
+        }
+    },
+    {
+        path: '/login',
+        name: 'Login',
+        component: () => import('@/views/LoginView.vue'),
+        meta: {
+            guestOnly: true,
+        }
+    },
+    {
+        path: '/register',
+        name: 'Register',
+        component: () => import('@/views/RegisterView.vue'),
+        meta: {
+            guestOnly: true,
+        }
+    },
 
 ]
 
@@ -81,11 +102,25 @@ const router = createRouter({
 })
 
 router.beforeEach((to, _, next) => {
-    const token = localStorage.getItem('token');
-    const isAuthenticated = !!token
+    const token = localStorage.getItem('accessToken');
+    const isGuest = localStorage.getItem('isGuest');
+    const store = authStore();
 
-    if (to.meta.requiresAuth && !isAuthenticated) {
-        return next('/user');
+    if(!isGuest && !token && to.name !== 'Login' && to.name !== 'Register') {
+        try {
+            store.initGuestSession().then(r => r);
+        }
+        catch (error) {
+            console.error(error);
+        }
+    }
+
+    if (to.meta.guestOnly && token && !isGuest) {
+        return next('/home')
+    }
+
+    if (to.meta.requiresAuth && (!token || isGuest) ) {
+        return next('/login');
     }
 
     next();

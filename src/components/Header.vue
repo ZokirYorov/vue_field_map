@@ -7,6 +7,11 @@
       O‘zbekiston
       <img src="@/assets/icons/location.png" class="w-8 h-7" alt="">
     </div>
+    <div class="flex gap-4 text-xl items-center">
+      <button></button>
+      <router-link to="/login" class="hover:text-blue-600">Login</router-link>
+      <router-link to="/register" class="hover:text-blue-600">Register</router-link>
+    </div>
   </header>
 </template>
 <script setup lang="ts">

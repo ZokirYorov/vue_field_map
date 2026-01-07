@@ -4,9 +4,27 @@ export interface IUser {
     email: string;
     deviceId: string;
     accountType: string;
-    role: string | null;
+    roles: string | null;
     active: boolean;
     password: number | null;
+}
+
+export interface IUsers {
+    id: number;
+    username: string;
+    email: string;
+    accountType: string;
+    roles: string[];
+    active: boolean;
+    password: number | null;
+}
+export interface MissedType {
+    BOMDOD: string;
+    PESHIN: string;
+    ASR: string;
+    SHOM: string;
+    XUFTON: string;
+    VITR: string;
 }
 
 export interface MissedPrayer {

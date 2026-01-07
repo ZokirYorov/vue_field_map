@@ -101,7 +101,7 @@
             class="bg-gray-200 rounded-lg p-6 w-full overflow-x-auto"
         >
           <thead>
-          <tr class="border-b uppercase border-gray-300 py-6 px-2">
+          <tr class="border-b uppercase text-sm border-gray-300 py-6 px-2">
             <th class="text-start p-4">ID</th>
             <th class="text-start p-2">Name</th>
             <th class="text-start p-2">Description</th>
@@ -122,7 +122,7 @@
             <td class="items-center py-4 px-2">{{item}}</td>
           </tr>
           </tbody>
-        </table>
+        </table>{{goalData}}
       </div>
     </div>
   </div>
@@ -158,33 +158,47 @@ const form = ref<FormData>({
   status: "",
 })
 
-const goals = {
-  1: "DAILY",
-  2: "WEEKLY",
-  3: "MONTHLY",
-  4: "CUSTOM",
-};
+const goals = [
+  "DAILY",
+  "WEEKLY",
+  "MONTHLY",
+  "CUSTOM",
+];
 
-const statuses = {
-  1: "ACTIVE",
-  2: "COMPLETED",
-  3: "FAILED",
-  4: "CANCELLED",
-}
+const statuses = [
+  "ACTIVE",
+  "COMPLETED",
+  "FAILED",
+  "CANCELLED",
+];
+
 
 
 const goalSubmit = async () => {
   try {
+    const userId = store.state.user?.id;
+    if (!userId) {
+      alert('User id is required');
+      return;
+    }
+
+    const payload = {
+      goalType: form.value.goalType,
+      targetCount: form.value.targetCount,
+      currentCount: form.value.currentCount,
+      status: form.value.status,
+    }
+
     const response = await axiosInstance.post("/api/goals",
-        form.value,
+        payload,
         {
           params: {
-            userId: store.state.user?.id
+            userId: userId,
           }
         },
     );
 
-    goalData.value = response.data;
+    goalData.value.push(response.data);
     console.log('Goal item', response.data);
     closeForm()
   }

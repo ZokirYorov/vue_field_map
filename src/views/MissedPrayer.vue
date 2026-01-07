@@ -42,16 +42,16 @@
             class="flex flex-col">
           Prayer Controller
           <select
-              v-model="formPrayer.missedPrayerId"
+              v-model="formPrayer.prayerType"
               class="rounded-md p-2 border border-gray-300 "
           >
             <option value="" disabled>Select prayer</option>
             <option
-                v-for="type in prayerType"
+                v-for="type in prayerTypes"
                 :key="type"
                 :value="type"
             >
-              {{ prayerLabel[type] }}
+              {{ prayerLabels[type] }}
             </option>
           </select>
         </label>
@@ -64,17 +64,6 @@
                  placeholder="Count Controller"
                  class="rounded-md p-2 border border-gray-300 "
                  v-model="formPrayer.count"
-          >
-        </label>
-        <label for="noteId"
-               class="flex flex-col"
-        >
-          Note
-          <input type="text"
-                 id="noteId"
-                 placeholder="Inter note"
-                 class="rounded-md p-2 border border-gray-300 "
-                 v-model="formPrayer.note"
           >
         </label>
         <label for="dataId"
@@ -95,7 +84,7 @@
     </div>
     <div
         v-if="visibleMissed"
-        class="fixed bg-black/50 flex-col items-center flex justify-center w-full h-screen"
+        class="fixed inset-0 bg-black/50 flex-col items-center flex justify-center w-full h-screen"
         @click="visibleMissed = !visibleMissed"
     >
       <form
@@ -104,6 +93,11 @@
           @click.stop
       >
         <h2 class="text-2xl font-semibold">Missed form</h2>
+
+        <div v-if="error" class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded">
+          {{ error }}
+        </div>
+
         <label>
           Prayer Type
           <select
@@ -181,7 +175,7 @@ import {computed, onMounted, ref, watch} from "vue";
 const store = authStore();
 
 const visibleMissed = ref(false);
-
+const error = ref('');
 const getMissed = computed(() => store.state.missed)
 
 
@@ -192,15 +186,11 @@ const visibleMissedForm = () => {
 interface MissedPrayerType {
   prayerType: string;
   totalCount: number;
-  completedCount: number;
-  remainingCount: number;
 }
 
 const form = ref<MissedPrayerType>( {
   prayerType: "",
   totalCount: 0,
-  completedCount: 0,
-  remainingCount: 0,
 });
 
 const formFilter = ref({
@@ -228,16 +218,24 @@ const prayerLabels: Record<string, string> = {
 
 
 const submitMissed = async () => {
+  error.value = "";
+
+
+  if (!form.value.prayerType) {
+    error.value = "Prayer type tanlang";
+    return;
+  }
+
   try {
-
-    if (!form.value.prayerType) {
-      alert("Prayer type tanlang");
-      return;
-    }
-
     const response = await axiosInstance.post(
         "/api/qaza/add",
-        form.value,
+        null,
+        {
+          params: {
+            prayerType: form.value.prayerType,
+            count: form.value.totalCount,
+          }
+        },
     );
     console.log("Added qaza", response.data);
     await store.getMissed();
@@ -257,7 +255,7 @@ const visibleForm = () => {
 
 
 const formPrayer = ref({
-  missedPrayerId: '',
+  prayerType: "",
   count: 0,
   note: '',
   createdAt: new Date(),
@@ -285,7 +283,7 @@ const submitPrayer = async () => {
   try {
     const userId = store.state.user?.id
     const payload = {
-      missedPrayerId: formPrayer.value.missedPrayerId,
+      prayerType: formPrayer.value.prayerType,
       count: formPrayer.value.count,
     }
     const res = await axiosInstance.post('/api/qaza/complete',
@@ -327,6 +325,7 @@ const getInit = async () => {
           }
         }
     );
+    // getMissed.value = response.data;
 
     console.log("From data", response.data);
   }
@@ -337,22 +336,18 @@ const getInit = async () => {
 
 const closeForm = () => {
   visiblePrayerForm.value = false;
-  formPrayer.value.missedPrayerId = '';
+  formPrayer.value.prayerType = '';
   formPrayer.value.count = 0;
-  formPrayer.value.note = '';
-  formPrayer.value.createdAt = new Date();
 }
 
 const resetForm = () => {
   form.value.prayerType = "";
   form.value.totalCount = 0;
-  form.value.remainingCount = 0;
-  form.value.remainingCount = 0;
   visibleMissed.value = false;
 }
 
 watch(
-    () => [formFilter.value.toDate, formFilter.value.toDate],
+    () => [formFilter.value.fromDate, formFilter.value.toDate],
     ([from, to]) => {
       if (from && to) {
         getInit()
