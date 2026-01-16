@@ -1,11 +1,7 @@
 <template>
-  <header class="flex justify-around p-6 bg-gray-800 text-white shadow">
+  <header class="flex justify-around p-6 dark:bg-gray-800 dark:text-gray-300 bg-gray-50 text-white shadow border-b border-gray-600">
     <div class="font-bold items-center flex">
       <img src="@/assets/icons/img_1.png" class="w-30 rounded-2xl" alt="">
-    </div>
-    <div class="flex gap-2 text-xl items-center font-semibold">
-      O‘zbekiston
-      <img src="@/assets/icons/location.png" class="w-8 h-7" alt="">
     </div>
     <div class="flex gap-4 text-xl items-center">
       <button></button>
@@ -15,15 +11,4 @@
   </header>
 </template>
 <script setup lang="ts">
-import {ref} from "vue";
-
-
-const searchModalVisible = ref(false)
-
-const visibleSearch = () => {
-  searchModalVisible.value = true
-}
-const closeModal = () => {
-  searchModalVisible.value = false
-}
 </script>

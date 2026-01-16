@@ -102,24 +102,25 @@
         >
           <thead>
           <tr class="border-b uppercase text-sm border-gray-300 py-6 px-2">
-            <th class="text-start p-4">ID</th>
-            <th class="text-start p-2">Name</th>
-            <th class="text-start p-2">Description</th>
+            <th class="text-start p-4">№</th>
             <th class="text-start p-2">Goal type</th>
             <th class="text-start p-2">Target count</th>
             <th class="text-start p-2">Current count</th>
-            <th class="text-start p-2">Start date</th>
-            <th class="text-start p-2">End date</th>
             <th class="text-start p-2">Status</th>
             <th class="text-start p-2">Progress</th>
           </tr>
           </thead>
           <tbody>
           <tr class="items-start bg-gray-50 border-t border-gray-200"
-              v-for="item in goalData"
-              :key="item"
+              v-for="(item, index) in goalData"
+              :key="index"
           >
-            <td class="items-center py-4 px-2">{{item}}</td>
+            <td class="items-center py-4 px-2">{{index + 1}}</td>
+            <td class="items-center py-4 px-2">{{item.goalType}}</td>
+            <td class="items-center py-4 px-2">{{item.targetCount}}</td>
+            <td class="items-center py-4 px-2">{{item.currentCount}}</td>
+            <td class="items-center py-4 px-2">{{item.status}}</td>
+            <td class="items-center py-4 px-2">{{item.progress}}</td>
           </tr>
           </tbody>
         </table>{{goalData}}
@@ -138,7 +139,16 @@ import { authStore } from "@/stores/authStore";
 const store = authStore()
 const formVisible = ref(false);
 
-const goalData = ref([])
+interface GoalForm {
+  id: number;
+  goalType: number;
+  targetCount: number;
+  currentCount: number;
+  status: string;
+  progress: number;
+}
+
+const goalData = ref<GoalForm[]>([])
 
 const visibleGoalForm = () => {
   formVisible.value = true;
@@ -149,6 +159,7 @@ interface FormData {
   targetCount: number;
   currentCount: number;
   status: string;
+  progress: number;
 }
 
 const form = ref<FormData>({
@@ -156,6 +167,7 @@ const form = ref<FormData>({
   targetCount: 0,
   currentCount: 0,
   status: "",
+  progress: 0.1,
 })
 
 const goals = [
@@ -177,16 +189,13 @@ const statuses = [
 const goalSubmit = async () => {
   try {
     const userId = store.state.user?.id;
-    if (!userId) {
-      alert('User id is required');
-      return;
-    }
 
     const payload = {
       goalType: form.value.goalType,
       targetCount: form.value.targetCount,
       currentCount: form.value.currentCount,
       status: form.value.status,
+      progress: form.value.progress,
     }
 
     const response = await axiosInstance.post("/api/goals",
@@ -214,6 +223,7 @@ const closeForm = () => {
     targetCount: 0,
     currentCount: 0,
     status: "",
+    progress: 0,
   }
 }
 </script>

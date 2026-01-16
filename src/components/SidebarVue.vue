@@ -1,7 +1,6 @@
 <template>
-  <div class="flex flex-col min-h-screen items-center justify-between px-4 py-2 bg-gray-700">
+  <div class="flex flex-col dark:bg-gray-700 dark:text-gray-300 min-h-screen items-center justify-between px-4 py-2 bg-gray-700">
     <div class="flex flex-col w-[300px] text-white text-lg gap-2 p-6">
-      <span class="py-4 uppercase">Sidebar page</span>
       <div
           v-for="(item, index) in menuItems"
           :key="index"

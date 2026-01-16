@@ -1,14 +1,14 @@
 <template>
-  <div class="flex flex-col px-6 w-full h-full overflow-x-auto">
-    <div class="w-full flex items-center justify-around py-6">
-      <span class="text-xl font-semibold">Missed page</span>
+  <div class="flex dark:bg-gray-800 dark:text-gray-300 flex-col gap-2 p-6 w-full h-screen overflow-x-auto">
+    <div class="w-full flex items-center rounded-2xl justify-around dark:bg-gray-700 dark:text-gray-300 py-6">
+      <span class="text-xl dark:text-gray-300 font-semibold">Missed page</span>
       <div class="flex text-md items-center gap-2">
         <input type="date"
-               class="flex py-1 px-4 border border-gray-400 rounded-md"
+               class="flex py-1 px-4 border border-gray-400 rounded-md dark:bg-gray-800 dark:text-gray-300"
                v-model="formFilter.fromDate"
         >
         <input type="date"
-               class="flex py-1 px-4 border border-gray-400 rounded-md"
+               class="flex py-1 px-4 border border-gray-400 rounded-md dark:bg-gray-800 dark:text-gray-300"
                v-model="formFilter.toDate"
         >
       </div>
@@ -33,7 +33,7 @@
         @click="visiblePrayerForm = !visiblePrayerForm"
     >
       <form
-          class="flex flex-col w-[400px] p-4 gap-6 min-h-[200px] bg-gray-100 rounded-md"
+          class="flex flex-col w-[400px] p-4 gap-6 min-h-[200px] bg-gray-100 dark:bg-gray-800 dark:text-gray-300 rounded-md"
           @submit.prevent="submitPrayer"
           @click.stop
       >
@@ -43,7 +43,7 @@
           Prayer Controller
           <select
               v-model="formPrayer.prayerType"
-              class="rounded-md p-2 border border-gray-300 "
+              class="rounded-md p-2 border border-gray-300 dark:bg-gray-800 dark:text-gray-300"
           >
             <option value="" disabled>Select prayer</option>
             <option
@@ -89,7 +89,7 @@
     >
       <form
           @submit.prevent="submitMissed"
-          class="flex flex-col w-[400px] min-h-[100px] gap-4 bg-white p-4 rounded-lg"
+          class="flex flex-col w-[400px] min-h-[100px] gap-4 bg-white p-4 dark:bg-gray-800 dark:text-gray-300 rounded-lg"
           @click.stop
       >
         <h2 class="text-2xl font-semibold">Missed form</h2>
@@ -102,7 +102,7 @@
           Prayer Type
           <select
               v-model="form.prayerType"
-              class="w-full px-2 py-1 border-gray-200 rounded-lg border"
+              class="w-full px-2 py-1 border-gray-200 rounded-lg border dark:bg-gray-800 dark:text-gray-300"
           >
             <option value="" disabled>Select prayer</option>
             <option
@@ -140,11 +140,11 @@
 
     <table
         v-if="getMissed"
-        class="bg-gray-100 rounded-xl p-6 w-full overflow-x-auto"
+        class="bg-gray-100 rounded-xl p-6 w-full dark:bg-gray-700 dark:text-gray-300 overflow-x-auto "
     >
       <thead class="border-b border-gray-300">
       <tr>
-        <th class="text-start p-2">ID</th>
+        <th class="text-start p-2">№</th>
         <th class="text-start p-2">Prayer Type</th>
         <th class="text-start">Total Count</th>
         <th class="text-start">Completed Count</th>
@@ -152,7 +152,7 @@
       </tr>
       </thead>
       <tbody>
-      <tr class="items-start border-t border-gray-200"
+      <tr class="items-start border-t border-gray-200 dark:bg-gray-800 dark:text-gray-300"
           v-for="(missed, index) in getMissed "
           :key="index"
       >
@@ -260,24 +260,6 @@ const formPrayer = ref({
   note: '',
   createdAt: new Date(),
 });
-
-const prayerType = [
-  1,
-  2,
-  3,
-  4,
-  5,
-  6
-];
-
-const prayerLabel: Record<string, string> = {
-  1: "Bomdod",
-  2: "Peshin",
-  3: "Asr",
-  4: "Shom",
-  5: "Xufton",
-  6: "Vitr",
-};
 
 const submitPrayer = async () => {
   try {

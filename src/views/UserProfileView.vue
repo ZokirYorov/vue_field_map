@@ -50,7 +50,7 @@ const userRoleMap: Record<string, string> = {
   "ROLE_ADMIN": "ADMIN",
 }
 
-const userRole = (roles: string[]) => {
+const userRole = (roles: string | null ) => {
   const role = roles?.[0]; // faqat birinchi role
   return role ? (userRoleMap[role] ?? role) : "-";
 };

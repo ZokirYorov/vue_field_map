@@ -1,23 +1,32 @@
 <template>
-  <div class=" flex flex-col gap-4 container mt-10 m-auto w-full h-full bg-gray-100 p-6">
+  <div class=" flex flex-col gap-4 container rounded-lg mt-10 m-auto w-full h-full bg-gray-100 p-6">
     <div class="text-lg font-semibold uppercase">All users</div>
-    <table class="rounded-xl p-6 w-full overflow-x-auto bg-white">
-      <thead class="border-b border-gray-800 p-4">
-      <tr>
-        <th class="text-start p-2">ID</th>
+    <table class="rounded-xl p-6 w-full overflow-x-auto bg-gray-200">
+      <colgroup>
+        <col style="width: 5%">
+        <col style="width: 14%">
+        <col style="width: 18%">
+        <col style="width: 14%">
+        <col style="width: 16%">
+        <col style="width: 14%">
+      </colgroup>
+      <thead class="border-b border-gray-800 py-8">
+      <tr class="">
+        <th class="text-center p-2">№</th>
         <th class="text-start py-2">User name</th>
         <th class="text-start py-2">Email</th>
         <th class="text-start py-2">Active</th>
         <th class="text-start py-2">Account type</th>
         <th class="text-start py-2">Role</th>
+        <th class="text-start px-3">Operations</th>
       </tr>
       </thead>
       <tbody>
-      <tr class="items-start"
-          v-for="user in users"
-          :key="user.id"
+      <tr class="items-start bg-white hover:bg-gray-100 border-b border-gray-200 px-8"
+          v-for="(user, index) in users"
+          :key="index"
       >
-        <td class="items-center p-2">{{user.id}}</td>
+        <td class="items-center text-center p-2">{{index + 1}}</td>
         <td class="items-start">{{user.username}}</td>
         <td>{{user.email}}</td>
         <td>{{user.active}}</td>
@@ -25,7 +34,7 @@
         <td>{{userRole(user.roles)}}</td>
       </tr>
       </tbody>
-    </table>
+    </table>{{users[6]}}
   </div>
 </template>
 
